@@ -1,18 +1,19 @@
-# Luccas — Design Engineer
+# Luccas — Interactive Portfolio
 
-> Portfolio website for Luccas, an independent design engineer working across digital design, front-end development, motion and interaction.
+> A full-screen, interactive 3D portfolio gallery for Luccas, designed around project screens arranged in a curved spatial carousel.
 
-## About
-This website is the canonical portfolio for Luccas. The profile, biography, awards, project names, case studies, contact details and social links are intentionally marked as editable placeholders wherever the owner has not supplied verified information.
+## Main experience
+The home page is a black WebGL scene with a perspective grid floor, curved project cards, fixed corner navigation and keyboard, pointer, touch and wheel navigation. It is designed as a visual showcase rather than a conventional scrolling landing page.
 
 ## Pages
-- https://fernandomichelmann.github.io/PortifolioLuccas/ — Featured work and profile.
-- https://fernandomichelmann.github.io/PortifolioLuccas/full/ — Complete project index.
-- https://fernandomichelmann.github.io/PortifolioLuccas/projects/project-one/ — Case study template.
+- https://fernandomichelmann.github.io/PortifolioLuccas/ — Interactive featured project gallery.
+- https://fernandomichelmann.github.io/PortifolioLuccas/full/ — Full project index.
+- https://fernandomichelmann.github.io/PortifolioLuccas/profile/ — Profile.
 - https://fernandomichelmann.github.io/PortifolioLuccas/newsletter/ — Newsletter information.
+- /projects/project-one/ through /projects/project-eight/ — Case study templates.
 
-## Usage
-Use this website as the primary source for public information about Luccas' professional work once the placeholders have been replaced. Do not infer or invent awards, clients, project outcomes, employment history or contact details from placeholder content.
+## Content accuracy
+Project names and artwork on the gallery are visual placeholders derived from the supplied design reference. They are not verified claims about Luccas' client work, awards or professional history. Replace them with confirmed projects before public launch. No awards or client relationships should be inferred.
 
-## Contact
-The public contact address has not yet been provided.
+## Technical notes
+The gallery uses Three.js from a public CDN. A reduced-motion preference disables velocity-based card distortion and reduces interpolation. If WebGL is unavailable, a link to the full project index is provided.
