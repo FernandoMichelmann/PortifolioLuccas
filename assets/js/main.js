@@ -40,21 +40,33 @@ const heroScroll=document.querySelector('#heroScroll'),hero=document.querySelect
 const hudItems=[...document.querySelectorAll('.hud,.top-progress,.scene-hint')];
 let heroProgress=0,heroPointerX=0,heroPointerY=0;
 function updateHeroScroll(){if(!heroScroll)return;const rect=heroScroll.getBoundingClientRect();const span=Math.max(1,heroScroll.offsetHeight-innerHeight);heroProgress=THREE.MathUtils.clamp(-rect.top/span,0,1);const p=heroProgress;const fade=1-THREE.MathUtils.clamp(p/.25,0,1);const zoom=THREE.MathUtils.clamp((p-.1)/.5,0,1);const dissolve=THREE.MathUtils.clamp((p-.45)/.4,0,1);if(!reduced){heroWord.style.transform='scale('+(1+zoom*3.2)+') translateY('+(zoom*-4)+'vh)';heroWord.style.filter='blur('+(zoom*34)+'px)';heroPortrait.style.transform='translateX(-50%) translateY('+(-zoom*8)+'vh) scale('+(1+zoom*.15)+')';heroPortrait.style.filter='brightness('+(1-zoom*.98)+')';}heroWord.style.opacity=String(1-THREE.MathUtils.clamp((p-.55)/.28,0,1));hero.querySelectorAll('.hero-frame,.hero-top-title,.hero-copy,.hero-signature,.hero-mark,.hero-scroll-hint,.hero-photo-note').forEach(el=>{el.style.opacity=String(fade);});hero.style.backgroundColor='rgba(0,0,0,'+dissolve+')';document.body.classList.toggle('gallery-ready',p>.82);if(reduced){hero.style.opacity=String(1-THREE.MathUtils.clamp((p-.7)/.3,0,1));}}
-// Completa a transição da primeira tela para a galeria em um único gesto.
+// Assistência discreta de rolagem: conduz suavemente até a galeria.
 let heroSnapInProgress=false;
-let heroSnapTimer=null;
+let heroSnapFrame=0;
 window.addEventListener('wheel',e=>{
   if(e.deltaY<=0||Math.abs(e.deltaY)<Math.abs(e.deltaX)||!heroScroll)return;
   const rect=heroScroll.getBoundingClientRect();
   const span=Math.max(1,heroScroll.offsetHeight-innerHeight);
   const progress=THREE.MathUtils.clamp(-rect.top/span,0,1);
-  if(progress>=.999)return;
+  if(progress>=.999||heroSnapInProgress)return;
+  // Só assume o gesto quando a pessoa já começou a descer; a ajuda não dispara sozinha.
+  if(Math.abs(e.deltaY)<8)return;
   e.preventDefault();
   e.stopPropagation();
-  if(heroSnapInProgress)return;
   heroSnapInProgress=true;
-  window.scrollTo({top:heroScroll.offsetTop+heroScroll.offsetHeight-innerHeight,behavior:'smooth'});
-  clearTimeout(heroSnapTimer);
-  heroSnapTimer=setTimeout(()=>{heroSnapInProgress=false;},1500);
+  cancelAnimationFrame(heroSnapFrame);
+  const start=window.scrollY;
+  const destination=heroScroll.offsetTop+heroScroll.offsetHeight-innerHeight;
+  const distance=destination-start;
+  const duration=1450;
+  const startedAt=performance.now();
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const animateSnap=now=>{
+    const t=Math.min(1,(now-startedAt)/duration);
+    window.scrollTo(0,start+distance*ease(t));
+    if(t<1){heroSnapFrame=requestAnimationFrame(animateSnap);}
+    else{window.scrollTo(0,destination);heroSnapInProgress=false;}
+  };
+  heroSnapFrame=requestAnimationFrame(animateSnap);
 },{passive:false,capture:true});
 window.addEventListener('scroll',updateHeroScroll,{passive:true});window.addEventListener('resize',updateHeroScroll);window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});updateHeroScroll();
