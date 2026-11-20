@@ -68,3 +68,22 @@
   .hero-word{font-size:clamp(42px,9vw,70px)}
   .hero-scroll{height:180svh}
 }
+
+
+/* Terceira tela — contato */
+html{scroll-behavior:smooth}
+.contact-section{position:relative;z-index:30;min-height:100svh;padding:5.2vh 5.1vw 3.2vh;background:radial-gradient(ellipse 55% 65% at 50% 48%,#111 0%,#050505 62%,#000 100%);color:var(--white);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
+.contact-grain{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
+.contact-topline,.contact-footer{display:flex;align-items:center;justify-content:space-between;font:10px var(--mono);letter-spacing:.12em;color:#777}
+.contact-topline span:first-child{font:700 14px var(--sans);letter-spacing:-.04em;color:#f4f4f1}
+.contact-content{width:min(100%,1250px);margin:auto;padding:9vh 0 7vh}
+.contact-eyebrow{font:10px var(--mono);letter-spacing:.18em;color:#888;margin:0 0 35px}
+.contact-content h2{font:500 clamp(48px,9.8vw,142px)/.92 var(--sans);letter-spacing:-.095em;margin:0;color:#f4f4f1}
+.contact-content h2 em{font-family:Georgia,serif;font-weight:400;letter-spacing:-.075em;color:#888}
+.contact-bottom{display:flex;align-items:center;gap:28px;margin-top:clamp(55px,10vh,120px);padding-top:18px;border-top:1px solid #292929}
+.contact-bottom p{font:10px var(--mono);letter-spacing:.18em;color:#888;margin:0}
+.contact-placeholder{display:block;flex:1;height:1px}
+.contact-footer{padding-top:22px;border-top:1px solid #252525}
+.contact-footer a{color:#aaa;transition:color .25s}
+.contact-footer a:hover{color:#fff}
+@media(max-width:700px){.contact-section{min-height:100svh;padding:calc(4vh + env(safe-area-inset-top)) 6vw calc(3vh + env(safe-area-inset-bottom))}.contact-topline span:first-child{font-size:13px}.contact-content{padding:7vh 0}.contact-eyebrow{font-size:8px;margin-bottom:28px}.contact-content h2{font-size:clamp(45px,11vw,78px);line-height:.98}.contact-bottom{margin-top:9vh;gap:18px}.contact-footer{font-size:8px}}
