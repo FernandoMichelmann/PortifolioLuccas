@@ -87,3 +87,12 @@ html{scroll-behavior:smooth}
 .contact-footer a{color:#aaa;transition:color .25s}
 .contact-footer a:hover{color:#fff}
 @media(max-width:700px){.contact-section{min-height:100svh;padding:calc(4vh + env(safe-area-inset-top)) 6vw calc(3vh + env(safe-area-inset-bottom))}.contact-topline span:first-child{font-size:13px}.contact-content{padding:7vh 0}.contact-eyebrow{font-size:8px;margin-bottom:28px}.contact-content h2{font-size:clamp(45px,11vw,78px);line-height:.98}.contact-bottom{margin-top:9vh;gap:18px}.contact-footer{font-size:8px}}
+
+
+/* Acesso direto à terceira tela a partir da galeria */
+.gallery-contact-cta{position:absolute;left:50%;bottom:13vh;transform:translate(-50%,12px);z-index:9;display:flex;align-items:center;gap:18px;padding:13px 18px;border:1px solid rgba(255,255,255,.34);background:rgba(5,5,5,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#f4f4f1;font:9px var(--mono);letter-spacing:.16em;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s,transform .45s,border-color .25s,background .25s}
+.scene-page.gallery-ready .gallery-contact-cta{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+.gallery-contact-cta span{font-size:15px;line-height:10px;transition:transform .25s}
+.gallery-contact-cta:hover{border-color:rgba(255,255,255,.8);background:rgba(30,30,30,.9)}
+.gallery-contact-cta:hover span{transform:translateY(3px)}
+@media(max-width:700px){.gallery-contact-cta{bottom:calc(17vh + env(safe-area-inset-bottom));font-size:8px;padding:12px 15px;gap:13px}}
