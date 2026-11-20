@@ -8,7 +8,7 @@
 //
 // FOTO PRINCIPAL (capa do site):
 export const SITE_PHOTOS = {
-  hero: "",
+  hero: "imagem/hero.png",
 
   // FOTOS DOS 8 PROJETOS DO CARROSSEL, NA ORDEM EM QUE APARECEM:
   projects: [
