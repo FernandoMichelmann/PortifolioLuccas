@@ -38,6 +38,16 @@ init();
 // Hero-to-gallery scroll choreography (reversible).
 const heroScroll=document.querySelector('#heroScroll'),hero=document.querySelector('#hero'),heroWord=document.querySelector('#heroWord'),heroPortrait=document.querySelector('#heroPortrait');
 const hudItems=[...document.querySelectorAll('.hud,.top-progress,.scene-hint')];
+const heroFramePath=document.querySelector('.hero-frame path');
+// Mantém a margem superior da moldura igual à margem lateral em pixels.
+function alignHeroFrame(){
+  if(!heroFramePath||!hero)return;
+  const rect=hero.getBoundingClientRect();
+  const ratio=rect.width/Math.max(1,rect.height);
+  const top=30*ratio,corner=48*ratio;
+  heroFramePath.setAttribute('d',`M30 310V${corner}L48 ${top}H240 M760 ${top}H952L970 ${corner}V310`);
+}
+alignHeroFrame();
 let heroProgress=0,heroPointerX=0,heroPointerY=0;
 function updateHeroScroll(){if(!heroScroll)return;const rect=heroScroll.getBoundingClientRect();const span=Math.max(1,heroScroll.offsetHeight-innerHeight);heroProgress=THREE.MathUtils.clamp(-rect.top/span,0,1);const p=heroProgress;const fade=1-THREE.MathUtils.clamp(p/.25,0,1);const zoom=THREE.MathUtils.clamp((p-.1)/.5,0,1);const dissolve=THREE.MathUtils.clamp((p-.45)/.4,0,1);if(!reduced){heroWord.style.transform='scale('+(1+zoom*3.2)+') translateY('+(zoom*-4)+'vh)';heroWord.style.filter='blur('+(zoom*34)+'px)';heroPortrait.style.transform='translateX(-50%) translateY('+(-zoom*8)+'vh) scale('+(1+zoom*.15)+')';heroPortrait.style.filter='brightness('+(1-zoom*.98)+')';}heroWord.style.opacity=String(1-THREE.MathUtils.clamp((p-.55)/.28,0,1));hero.querySelectorAll('.hero-frame,.hero-top-title,.hero-copy,.hero-signature,.hero-mark,.hero-scroll-hint,.hero-photo-note').forEach(el=>{el.style.opacity=String(fade);});hero.style.backgroundColor='rgba(0,0,0,'+dissolve+')';document.body.classList.toggle('gallery-ready',p>.82);if(reduced){hero.style.opacity=String(1-THREE.MathUtils.clamp((p-.7)/.3,0,1));}}
 // Assistência discreta de rolagem: deixa o gesto natural e completa a transição após a pausa.
@@ -61,4 +71,4 @@ window.addEventListener('wheel',e=>{
     }
   },180);
 },{passive:true});
-window.addEventListener('scroll',updateHeroScroll,{passive:true});window.addEventListener('resize',updateHeroScroll);window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});updateHeroScroll();
+window.addEventListener('scroll',updateHeroScroll,{passive:true});window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});updateHeroScroll();
