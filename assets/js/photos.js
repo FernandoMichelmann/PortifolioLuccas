@@ -12,7 +12,7 @@ export const SITE_PHOTOS = {
 
   // FOTOS DOS 8 PROJETOS DO CARROSSEL, NA ORDEM EM QUE APARECEM:
   projects: [
-    "", // 01 — Nathan Riley
+    "imagem/foto1.jpg", // 01 — Nathan Riley
     "", // 02 — Casa Di Solare
     "", // 03 — The Lookback
     "", // 04 — Book of Happiness
