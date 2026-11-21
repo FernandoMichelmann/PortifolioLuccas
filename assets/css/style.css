@@ -102,3 +102,6 @@ html{scroll-behavior:smooth}
 .scene-page.is-ready .hero,.scene-page.is-ready #stage,.scene-page.is-ready .contact-section{visibility:visible}
 .hero-portrait img{opacity:0;transition:opacity .35s ease}
 .hero-portrait img.is-decoded{opacity:1}
+
+/* Restaura os traços da moldura do Hero sem alterar espessura ou alinhamento. */
+.hero-frame path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
