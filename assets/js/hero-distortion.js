@@ -53,6 +53,9 @@ if(hero && targets.length && !reduced && !touch && 'WebGLRenderingContext' in wi
    grad.addColorStop(0,'rgba(255,255,255,.08)');grad.addColorStop(.22,'#fff');grad.addColorStop(.78,'#fff');grad.addColorStop(1,'rgba(255,255,255,.08)');
    ctx.fillStyle=grad;
   }else ctx.fillStyle='#fff';
+  const measured=ctx.measureText(layer.text).width;
+  const spacing=parseFloat(style.letterSpacing)||0;
+  layer.measuredTextWidth=Math.min(w,measured+Math.max(0,layer.text.length-1)*spacing);
   ctx.fillText(layer.text,w/2,h/2,w*.995);
   const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
   texture.minFilter=THREE.LinearFilter;texture.magFilter=THREE.LinearFilter;texture.generateMipmaps=false;return texture;
@@ -81,11 +84,16 @@ if(hero && targets.length && !reduced && !touch && 'WebGLRenderingContext' in wi
    layer.renderer.setSize(rect.width,rect.height,false);
   }
   layer.rect=rect;
+  const textWidth=layer.measuredTextWidth||rect.width;
+  layer.hitRect={left:rect.left+(rect.width-textWidth)/2,right:rect.left+(rect.width+textWidth)/2,top:rect.top,bottom:rect.bottom};
+  layer.canvas.style.opacity=layer.element.style.opacity||'1';
+  const currentFilter=getComputedStyle(layer.element).filter;
+  layer.canvas.style.filter=currentFilter==='none'?'none':currentFilter;
  }
  function inside(r,x,y){return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;}
  function updateLayer(layer){
   const overPhoto=portrait&&inside(portrait.getBoundingClientRect(),pointer.x,pointer.y);
-  const overText=pointer.active&&!overPhoto&&layer.rect&&inside(layer.rect,pointer.x,pointer.y);
+  const overText=pointer.active&&!overPhoto&&layer.hitRect&&inside(layer.hitRect,pointer.x,pointer.y);
   if(overText){
    const x=THREE.MathUtils.clamp((pointer.x-layer.rect.left)/layer.rect.width,0,1);
    const y=1-THREE.MathUtils.clamp((pointer.y-layer.rect.top)/layer.rect.height,0,1);
@@ -114,7 +122,10 @@ if(hero && targets.length && !reduced && !touch && 'WebGLRenderingContext' in wi
    await document.fonts.ready;await waitAnimations();
    targets.forEach(createLayer);layers.forEach(layout);
    hero.classList.add('hero-distortion-ready');start();
-  }catch(error){console.warn('Hero distortion indisponível; mantendo texto HTML.',error);}
+  }catch(error){
+   console.warn('Hero distortion indisponível; mantendo texto HTML.',error);
+   layers.forEach(layer=>{layer.texture?.dispose();layer.material?.dispose();layer.mesh?.geometry?.dispose();layer.renderer?.dispose();layer.canvas?.remove();});
+  }
  }
  window.addEventListener('pointermove',move,{passive:true});
  window.addEventListener('pointerout',e=>{if(!e.relatedTarget)pointer.active=false;},{passive:true});
