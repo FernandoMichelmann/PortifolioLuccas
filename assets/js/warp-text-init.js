@@ -26,7 +26,7 @@ if (designer) {
         ripple: true,
         clickRipple: true,
         intro: true,
-        fontSize: 'clamp(3rem, 10vw, 9rem)',
+        fontSize: 'clamp(3.6rem, 12vw, 10.8rem)',
         fontWeight: 900,
         fontFamily: 'inherit',
         letterSpacing: '-0.08em',
