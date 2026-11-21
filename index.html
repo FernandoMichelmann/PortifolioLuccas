@@ -15,6 +15,7 @@
 <body class="scene-page page-loading">
 <div class="hero-scroll" id="heroScroll">
 <section class="hero" id="hero" aria-label="Apresentação de Luccas">
+<svg class="hero-filter-defs" aria-hidden="true" focusable="false"><filter id="heroDistortion" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence id="heroTurbulence" type="fractalNoise" baseFrequency=".012 .025" numOctaves="2" seed="8" result="noise"/><feDisplacementMap id="heroDisplacement" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="hero-grain" aria-hidden="true"></div>
 <div class="hero-word-wrap"><div class="hero-word" id="heroWord" aria-label="Designer">DESIGNER</div></div>
 <div class="hero-portrait" id="heroPortrait" role="img" aria-label="Silhueta provisória de um homem; foto oficial será adicionada posteriormente">
@@ -24,31 +25,15 @@
 <div class="hero-top-title">LUCCAS</div>
 <div class="hero-copy hero-copy-right"><span>VISÃO <b>CRIATIVA</b></span><p>Ideias transformadas em experiências digitais. Design, tecnologia e movimento em uma linguagem própria.</p></div>
 <div class="hero-copy hero-copy-left"><span>CRIAÇÃO <b>DIGITAL</b></span><p>Construindo interfaces e experiências que conectam estética, interação e propósito.</p></div>
-
 <div class="hero-scroll-hint">ROLE PARA EXPLORAR <span>↓</span></div>
-
 </section></div>
 <div id="stage" aria-label="Galeria interativa de projetos em 3D">
 <canvas id="world" tabindex="0" role="img" aria-label="Carrossel interativo de projetos em três dimensões. Use as setas esquerda e direita para navegar e Enter para abrir o projeto selecionado."></canvas><ul class="sr-only" aria-label="Links dos projetos"><li><a href="projects/project-one/">Nathan Riley</a></li><li><a href="projects/project-two/">Casa Di Solare</a></li><li><a href="projects/project-three/">The Lookback</a></li><li><a href="projects/project-four/">Book of Happiness</a></li><li><a href="projects/project-five/">Dogelon Mars</a></li><li><a href="projects/project-six/">Gil Huybrecht</a></li><li><a href="projects/project-seven/">Discoveryland</a></li><li><a href="projects/project-eight/">Griflan</a></li></ul>
-<div class="vignette" aria-hidden="true"></div>
-<div class="top-progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+<div class="vignette" aria-hidden="true"></div><div class="top-progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 <header class="hud hud-top"><a class="brand" href="./">LUCCAS<span>®</span></a><a class="hud-link" href="profile/">PERFIL <b>↗</b></a></header>
 <div class="hud hud-bottom"><nav class="view-switch" aria-label="Visualização dos projetos"><a class="selected" href="./" aria-current="page">DESTAQUES</a><span>/</span><a href="full/">COMPLETO</a></nav><div class="bottom-right"><span class="counter"><b id="current">01</b><i>/</i><span>08</span></span><a class="hud-link" href="#contato">CONTATO <b>↗</b></a></div></div>
-<div class="scene-hint" id="hint">ARRASTE OU ROLE PARA EXPLORAR <span>↔</span></div>
-<a class="gallery-contact-cta" href="#contato" aria-label="Ir para a tela de contato">IR PARA CONTATO <span>↓</span></a>
-<div class="loading" id="loading"><span>LUCCAS®</span><i></i></div>
-<div class="no-webgl" id="fallback"><p>TRABALHOS EM DESTAQUE</p><a href="full/">Ver lista de projetos ↗</a></div>
+<div class="scene-hint" id="hint">ARRASTE OU ROLE PARA EXPLORAR <span>↔</span></div><a class="gallery-contact-cta" href="#contato" aria-label="Ir para a tela de contato">IR PARA CONTATO <span>↓</span></a>
+<div class="loading" id="loading"><span>LUCCAS®</span><i></i></div><div class="no-webgl" id="fallback"><p>TRABALHOS EM DESTAQUE</p><a href="full/">Ver lista de projetos ↗</a></div>
 </div>
-
-<section class="contact-section" id="contato" aria-labelledby="contactTitle">
-  <div class="contact-grain" aria-hidden="true"></div>
-  <div class="contact-topline"><span>LUCCAS®</span><span>03 / 03</span></div>
-  <div class="contact-content">
-    <p class="contact-eyebrow">UM NOVO PROJETO COMEÇA AQUI</p>
-    <h2 id="contactTitle">VAMOS CRIAR<br><em>ALGO JUNTOS?</em></h2>
-    <div class="contact-bottom"><p>CONTATO</p><span class="contact-placeholder" aria-hidden="true"></span></div>
-  </div>
-  <footer class="contact-footer"><span>© 2026 LUCCAS</span><a href="#heroScroll">VOLTAR AO INÍCIO ↑</a></footer>
-</section>
-
+<section class="contact-section" id="contato" aria-labelledby="contactTitle"><div class="contact-grain" aria-hidden="true"></div><div class="contact-topline"><span>LUCCAS®</span><span>03 / 03</span></div><div class="contact-content"><p class="contact-eyebrow">UM NOVO PROJETO COMEÇA AQUI</p><h2 id="contactTitle">VAMOS CRIAR<br><em>ALGO JUNTOS?</em></h2><div class="contact-bottom"><p>CONTATO</p><span class="contact-placeholder" aria-hidden="true"></span></div></div><footer class="contact-footer"><span>© 2026 LUCCAS</span><a href="#heroScroll">VOLTAR AO INÍCIO ↑</a></footer></section>
 </body></html>
