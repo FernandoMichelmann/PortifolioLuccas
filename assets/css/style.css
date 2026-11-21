@@ -9,7 +9,7 @@
 .hero-portrait{position:absolute;z-index:3;width:min(57vw,700px);height:100%;left:50%;bottom:-2%;transform:translateX(-50%) translateY(40px) scale(1.04);display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 0 24px rgba(255,255,255,.07));animation:heroPersonIn 1.35s .18s cubic-bezier(.2,.7,.1,1) forwards;will-change:transform,opacity}
 .hero-portrait svg{height:91%;width:100%;object-fit:contain;object-position:center bottom}
 .hero-frame{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none}
-.hero-frame path{stroke-dasharray:1300;stroke-dashoffset:1300;stroke-opacity:0;animation:none}.hero.hero-photo-ready .hero-frame path{stroke-opacity:1;animation:frameDraw 1.5s 0s ease forwards}
+.hero-frame path{stroke-dasharray:1300;stroke-dashoffset:1300;animation:none}.hero.hero-photo-ready .hero-frame path{animation:frameDraw 1.5s 0s ease forwards}
 .hero-top-title{position:absolute;z-index:7;top:5.1%;left:0;width:100%;text-align:center;transform:none;font-family:'Michroma',sans-serif;font-size:clamp(12px,2.1vw,28px);letter-spacing:.36em;font-weight:400;animation:heroTextIn .8s .55s both}
 .hero-copy{position:absolute;z-index:7;width:21%;font-family:'DM Mono',monospace;text-transform:uppercase;animation:heroTextIn .8s .8s both}
 .hero-copy span{font-family:'Michroma',sans-serif;font-size:clamp(10px,1.05vw,15px);letter-spacing:.08em}.hero-copy span b{font-weight:800}
@@ -22,7 +22,7 @@
 @keyframes heroWordIn{from{clip-path:inset(0 100% 0 0);filter:blur(12px)}to{clip-path:inset(0);filter:blur(0)}}@keyframes heroPersonIn{to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}@keyframes frameDraw{to{stroke-dashoffset:0}}@keyframes heroTextIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 #stage{z-index:0}.hud,.top-progress,.scene-hint{opacity:0;transition:opacity .6s}.scene-page.gallery-ready .hud,.scene-page.gallery-ready .top-progress,.scene-page.gallery-ready .scene-hint{opacity:1}
 @media(max-width:700px){.hero{min-height:560px}.hero-word-wrap{top:43%;left:2%;right:2%}.hero-word{font-size:clamp(49px,13vw,92px);letter-spacing:-.09em}.hero-portrait{width:92vw;height:83%;bottom:0}.hero-portrait svg{height:100%}.hero-frame{transform:scale(.96)}.hero-top-title{top:5%;font-size:13px;letter-spacing:.25em}.hero-copy-right{display:none}.hero-copy-left{left:7%;bottom:17%;width:38%}.hero-copy-left p{font-size:8px}.hero-signature{left:6%;bottom:5%}.hero-mark{right:7%;bottom:5%;font-size:38px}.hero-scroll-hint{bottom:5%;font-size:7px}.hero-photo-note{right:5%;top:9%;font-size:6px}.hero-scroll{height:210vh}}
-@media(prefers-reduced-motion:reduce){.hero-word,.hero-portrait,.hero-copy,.hero-signature,.hero-scroll-hint,.hero-top-title{animation:none!important;opacity:1;transform:none;clip-path:none}.hero-frame path{animation:none!important;stroke-dashoffset:0}.hero.hero-photo-ready .hero-frame path{stroke-opacity:1}.hero-scroll{height:150vh}}
+@media(prefers-reduced-motion:reduce){.hero-word,.hero-portrait,.hero-frame path,.hero-copy,.hero-signature,.hero-scroll-hint,.hero-top-title{animation:none!important;opacity:1;transform:none;clip-path:none}.hero-scroll{height:150vh}}
 
 
 /* Mobile-first gallery refinements */
