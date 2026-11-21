@@ -350,7 +350,8 @@ export function createWarpText(container, options = {}) {
     const delta = lastFrame ? Math.min(now - lastFrame, 50) : 16;
     lastFrame = now; frame++;
     if (textReady && introProgress < 1) introProgress = Math.min(1, introProgress + delta / INTRO_MS);
-    if (textReady && frame % 15 === 0 && getComputedStyle(container).color !== lastInk) rasterize();
+    // Não rasterizar novamente por mudanças de cor do container: a classe warp-text-ready
+    // torna o texto HTML transparente intencionalmente e causava flashes no canvas.
     const drift = Math.min(Math.max(props.idleDrift, 0), 1);
     const engaged = pointer.activeTarget > 0;
     const idleX = 0.5 + Math.sin(elapsed * 0.33) * (0.08 + drift * 0.2);
