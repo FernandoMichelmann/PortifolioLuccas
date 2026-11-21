@@ -1539,6 +1539,7 @@ export function mountTopography(container, options = {}) {
 
     return () => {
       dispose();
+      canvas.remove();
       const free = () => {
         releaseRef.current = 0;
         if (!canvas.isConnected && !gl.isContextLost()) gl.getExtension('WEBGL_lose_context')?.loseContext();
@@ -1546,8 +1547,4 @@ export function mountTopography(container, options = {}) {
       if (canvas.isConnected) releaseRef.current = requestAnimationFrame(free);
       else free();
     };
-  return () => {
-    wakeRef.current?.();
-    canvas.remove();
-  };
 }
