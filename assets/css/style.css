@@ -105,10 +105,3 @@ html{scroll-behavior:smooth}
 
 /* Restaura os traços da moldura do Hero sem alterar espessura ou alinhamento. */
 .hero-frame path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
-
-/* Distorção interativa sutil no retrato do Hero */
-.hero-filter-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
-.hero-portrait{transform-origin:50% 70%;transition:filter .2s ease}
-.hero-portrait img,.hero-portrait>svg{will-change:filter}
-.hero-portrait.is-distorting img,.hero-portrait.is-distorting>svg{filter:url(#heroDistortion)}
-@media(hover:none),(prefers-reduced-motion:reduce){.hero-portrait.is-distorting img,.hero-portrait.is-distorting>svg{filter:none}}
