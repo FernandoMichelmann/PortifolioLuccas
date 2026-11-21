@@ -107,6 +107,9 @@ html{scroll-behavior:smooth}
 .hero-frame path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
 
 
-/* Hover distortion do Hero: canvases restritos ao texto, sem capturar eventos. */
-.hero-distortion-canvas{position:absolute;z-index:2;pointer-events:none;overflow:hidden}
-.hero.hero-distortion-ready .hero-word,.hero.hero-distortion-ready .hero-top-title{opacity:0!important}
+/* WarpText/OGL: o canvas acompanha a caixa e as transformações do texto original. */
+.hero-word,.hero-top-title{position:relative}
+.warp-text-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.hero-word.warp-text-ready{color:transparent!important;background:none!important;-webkit-text-fill-color:transparent!important;filter:none!important}
+.hero-top-title.warp-text-ready{color:transparent!important}
+.hero-portrait,.hero-portrait *{pointer-events:none}
