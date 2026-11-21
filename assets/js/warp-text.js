@@ -230,7 +230,7 @@ export function createWarpText(container, options = {}) {
     ctx.clearRect(0, 0, rect.width, rect.height);
     ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = ink;
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-    const lines = String(props.text || '').split('\\n');
+    const lines = String(props.text || '').split('\n');
     const applyFont = () => { ctx.font = \`\${weight} \${fontSize}px \${family}\`; };
     applyFont();
     const widest = Math.max(...lines.map(line => measureLine(ctx, line, spacing)), 1);
