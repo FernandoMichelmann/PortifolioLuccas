@@ -2,8 +2,7 @@ import { SITE_PHOTOS } from './photos.js';
 import * as THREE from 'three';
 const canvas=document.querySelector('#world'),loading=document.querySelector('#loading'),fallback=document.querySelector('#fallback');
 const heroPhoto=SITE_PHOTOS.hero;
-const hero=document.querySelector('.hero');
-if(heroPhoto){const portrait=document.querySelector('#heroPortrait');const photo=document.createElement('img');photo.alt='Foto de perfil';photo.style.cssText='position:absolute;left:0;bottom:0;width:100%;height:91%;object-fit:contain;object-position:center bottom;';photo.onload=()=>{const placeholder=portrait.querySelector('svg');if(placeholder)placeholder.style.display='none';hero.classList.add('hero-photo-ready');};photo.onerror=()=>{photo.remove();hero.classList.add('hero-photo-ready');};portrait.appendChild(photo);photo.src=heroPhoto;}else{hero.classList.add('hero-photo-ready');}
+if(heroPhoto){const portrait=document.querySelector('#heroPortrait');const photo=document.createElement('img');photo.src=heroPhoto;photo.alt='Foto de perfil';photo.style.cssText='position:absolute;left:0;bottom:0;width:100%;height:91%;object-fit:contain;object-position:center bottom;';photo.onload=()=>{const placeholder=portrait.querySelector('svg');if(placeholder)placeholder.style.display='none';document.querySelector('.hero').classList.add('hero-photo-ready');};photo.onerror=()=>{photo.remove();document.querySelector('.hero').classList.add('hero-photo-ready');};portrait.appendChild(photo);}
 const projects=[
 {name:'Nathan Riley',sub:'Portfólio criativo digital · Direção de arte / 3D',kind:0,slug:'project-one'},
 {name:'Casa Di Solare',sub:'Uma tipografia variável de Nikolas Type',kind:1,slug:'project-two'},
