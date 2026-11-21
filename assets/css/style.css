@@ -96,3 +96,9 @@ html{scroll-behavior:smooth}
 .gallery-contact-cta:hover{border-color:rgba(255,255,255,.8);background:rgba(30,30,30,.9)}
 .gallery-contact-cta:hover span{transform:translateY(3px)}
 @media(max-width:700px){.gallery-contact-cta{bottom:calc(17vh + env(safe-area-inset-bottom));font-size:8px;padding:12px 15px;gap:13px}}
+
+/* Evita exibir layout parcialmente inicializado */
+.page-loading .hero,.page-loading #stage,.page-loading .contact-section{visibility:hidden}
+.scene-page.is-ready .hero,.scene-page.is-ready #stage,.scene-page.is-ready .contact-section{visibility:visible}
+.hero-portrait img{opacity:0;transition:opacity .35s ease}
+.hero-portrait img.is-decoded{opacity:1}
