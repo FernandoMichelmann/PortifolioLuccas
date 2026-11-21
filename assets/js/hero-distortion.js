@@ -23,7 +23,8 @@ if(hero && targets.length && !reduced && !touch && 'WebGLRenderingContext' in wi
  void main(){
    vec2 delta=vUv-uMouse; delta.x*=0.82;
    float dist=length(delta);
-   float falloff=pow(max(1.0-smoothstep(0.0,uRadius,dist),0.0),2.0)*uHover;
+   float activity=smoothstep(0.015,0.35,uVelocity);
+   float falloff=pow(max(1.0-smoothstep(0.0,uRadius,dist),0.0),2.0)*uHover*activity;
    float speed=clamp(uVelocity,0.0,2.2);
    float wave=sin(dist*42.0-uTime*(2.0+speed*3.0));
    float ripple=wave*0.42+sin(vUv.y*24.0+uTime*1.7)*0.18;
