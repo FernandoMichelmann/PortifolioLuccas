@@ -90,7 +90,7 @@ async function boot(){
   window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});
   // Reaplica posição após o navegador finalizar layout e exibir a página.
   window.addEventListener('pageshow',restorePagePosition);
-  window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});
+  window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});
   document.body.classList.remove('page-loading');document.body.classList.add('is-ready');
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
   restorePagePosition();
