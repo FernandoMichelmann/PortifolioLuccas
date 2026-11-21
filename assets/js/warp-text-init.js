@@ -13,7 +13,7 @@ if (designer) {
 
       instance = createWarpText(designer, {
         text: 'DESIGNER',
-        color: null,
+        color: '#ffffff',
         warpStrength: 0.14,
         warpScale: 2.2,
         speed: 1.25,
