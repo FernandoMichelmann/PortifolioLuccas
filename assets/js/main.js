@@ -67,6 +67,19 @@ async function boot(){
   window.scrollTo({top:hashTarget?hashTarget.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});
   init();alignHeroFrame();updateHeroScroll();
   window.addEventListener('scroll',updateHeroScroll,{passive:true});
+  // Assistência de rolagem só é ativada depois da restauração da posição inicial.
+  let heroSnapTimer=null;
+  window.addEventListener('wheel',e=>{
+   if(!heroScroll||e.deltaY<=0||Math.abs(e.deltaY)<Math.abs(e.deltaX)){clearTimeout(heroSnapTimer);return;}
+   const span=Math.max(1,heroScroll.offsetHeight-innerHeight);
+   const progress=THREE.MathUtils.clamp(-heroScroll.getBoundingClientRect().top/span,0,1);
+   if(progress<=.015||progress>=.985)return;
+   clearTimeout(heroSnapTimer);
+   heroSnapTimer=setTimeout(()=>{
+    const p=THREE.MathUtils.clamp(-heroScroll.getBoundingClientRect().top/span,0,1);
+    if(p>.015&&p<.985)window.scrollTo({top:heroScroll.offsetTop+heroScroll.offsetHeight-innerHeight,behavior:'smooth'});
+   },180);
+  },{passive:true});
   window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});
   window.addEventListener('pageshow',()=>{const t=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;window.scrollTo({top:t?t.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});alignHeroFrame();updateHeroScroll();});
   window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});
