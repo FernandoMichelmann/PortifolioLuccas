@@ -2,7 +2,14 @@ import { SITE_PHOTOS } from './photos.js';
 import * as THREE from 'three';
 const canvas=document.querySelector('#world'),loading=document.querySelector('#loading'),fallback=document.querySelector('#fallback');
 const heroPhoto=SITE_PHOTOS.hero;
-if(heroPhoto){const portrait=document.querySelector('#heroPortrait');const photo=document.createElement('img');photo.src=heroPhoto;photo.alt='Foto de perfil';photo.style.cssText='position:absolute;left:0;bottom:0;width:100%;height:91%;object-fit:contain;object-position:center bottom;';photo.onload=()=>{const placeholder=portrait.querySelector('svg');if(placeholder)placeholder.style.display='none';document.querySelector('.hero').classList.add('hero-photo-ready');};photo.onerror=()=>{photo.remove();document.querySelector('.hero').classList.add('hero-photo-ready');};portrait.appendChild(photo);}
+const portrait=document.querySelector('#heroPortrait');
+let heroImage=null;
+async function prepareHeroImage(){
+ if(!heroPhoto)return;
+ heroImage=new Image();heroImage.alt='Foto de perfil';heroImage.decoding='async';
+ heroImage.style.cssText='position:absolute;left:0;bottom:0;width:100%;height:91%;object-fit:contain;object-position:center bottom;';heroImage.src=heroPhoto;
+ try{if(heroImage.decode)await heroImage.decode();else await new Promise((resolve,reject)=>{heroImage.onload=resolve;heroImage.onerror=reject;});const placeholder=portrait.querySelector('svg');if(placeholder)placeholder.style.display='none';heroImage.classList.add('is-decoded');portrait.appendChild(heroImage);}catch(error){console.warn('Foto do Hero não carregou:',heroPhoto,error);}
+}
 const projects=[
 {name:'Nathan Riley',sub:'Portfólio criativo digital · Direção de arte / 3D',kind:0,slug:'project-one'},
 {name:'Casa Di Solare',sub:'Uma tipografia variável de Nikolas Type',kind:1,slug:'project-two'},
@@ -33,8 +40,6 @@ function onKey(e){if(e.key==='ArrowRight'){target=Math.round(target)+1}if(e.key=
 function onClick(e){if(pointerMoved)return;const r=canvas.getBoundingClientRect();const mouse=new THREE.Vector2((e.clientX/r.width)*2-1,-(e.clientY/r.height)*2+1);raycaster.setFromCamera(mouse,camera);const hits=raycaster.intersectObjects(meshes);if(hits.length){const i=hits[0].object.userData.index;if(i===activeIndex)openProject(i);else{const count=projects.length;const delta=((i-(Math.round(position)%count)+count*2+count/2)%count)-count/2;target=position+delta}}}
 function openProject(i){location.href='projects/'+projects[i].slug+'/'}
 function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);if(!dragging){const diff=target-position;position+=diff*(reduced?.22:.075);if(Math.abs(diff)<.001){position=target;velocity*=.82}else velocity+=(diff-velocity)*.08}const count=projects.length;const nearest=((Math.round(position)%count)+count)%count;if(nearest!==activeIndex){activeIndex=nearest;current.textContent=String(nearest+1).padStart(2,'0');progress.forEach((el,i)=>el.classList.toggle('active',i===Math.floor(nearest/2)))}meshes.forEach((m,i)=>{const d=((i-position+count/2)%count+count)%count-count/2;const mobile=innerWidth<=700;const angle=d*(mobile?.68:.9);const radius=mobile?8.2:12.5;m.position.set(Math.sin(angle)*radius,0.05+Math.abs(d)*-.015,Math.cos(angle)*radius-radius);m.rotation.y=-angle*.88;m.rotation.z=-Math.sign(d)*Math.min(.045,Math.abs(d)*.012);const scale=1-Math.min(.2,Math.abs(d)*.095);m.scale.setScalar(scale);m.material.uniforms.uDim.value=Math.min(.8,Math.abs(d)*.19);m.material.uniforms.uVelocity.value=reduced?0:Math.min(2,Math.abs(velocity));m.material.uniforms.uTime.value=clock.elapsedTime*(reduced?.0:1)});if(Math.abs(position)>.25)hint.style.opacity='0';renderer.render(scene,camera)}
-init();
-
 // Hero-to-gallery scroll choreography (reversible).
 const heroScroll=document.querySelector('#heroScroll'),hero=document.querySelector('#hero'),heroWord=document.querySelector('#heroWord'),heroPortrait=document.querySelector('#heroPortrait');
 const hudItems=[...document.querySelectorAll('.hud,.top-progress,.scene-hint')];
@@ -50,25 +55,22 @@ function alignHeroFrame(){
 alignHeroFrame();
 let heroProgress=0,heroPointerX=0,heroPointerY=0;
 function updateHeroScroll(){if(!heroScroll)return;const rect=heroScroll.getBoundingClientRect();const span=Math.max(1,heroScroll.offsetHeight-innerHeight);heroProgress=THREE.MathUtils.clamp(-rect.top/span,0,1);const p=heroProgress;const fade=1-THREE.MathUtils.clamp(p/.25,0,1);const zoom=THREE.MathUtils.clamp((p-.1)/.5,0,1);const dissolve=THREE.MathUtils.clamp((p-.45)/.4,0,1);if(!reduced){heroWord.style.transform='scale('+(1+zoom*3.2)+') translateY('+(zoom*-4)+'vh)';heroWord.style.filter='blur('+(zoom*34)+'px)';heroPortrait.style.transform='translateX(-50%) translateY('+(-zoom*8)+'vh) scale('+(1+zoom*.15)+')';heroPortrait.style.filter='brightness('+(1-zoom*.98)+')';}heroWord.style.opacity=String(1-THREE.MathUtils.clamp((p-.55)/.28,0,1));hero.querySelectorAll('.hero-frame,.hero-top-title,.hero-copy,.hero-signature,.hero-mark,.hero-scroll-hint,.hero-photo-note').forEach(el=>{el.style.opacity=String(fade);});hero.style.backgroundColor='rgba(0,0,0,'+dissolve+')';document.body.classList.toggle('gallery-ready',p>.82);if(reduced){hero.style.opacity=String(1-THREE.MathUtils.clamp((p-.7)/.3,0,1));}}
-// Assistência discreta de rolagem: deixa o gesto natural e completa a transição após a pausa.
-let heroSnapTimer=null;
-window.addEventListener('wheel',e=>{
-  if(!heroScroll)return;
-  if(e.deltaY<=0||Math.abs(e.deltaY)<Math.abs(e.deltaX)){
-    clearTimeout(heroSnapTimer);
-    return;
-  }
-  const rect=heroScroll.getBoundingClientRect();
-  const span=Math.max(1,heroScroll.offsetHeight-innerHeight);
-  const progress=THREE.MathUtils.clamp(-rect.top/span,0,1);
-  if(progress<=.015||progress>=.985)return;
-  clearTimeout(heroSnapTimer);
-  heroSnapTimer=setTimeout(()=>{
-    const currentRect=heroScroll.getBoundingClientRect();
-    const currentProgress=THREE.MathUtils.clamp(-currentRect.top/span,0,1);
-    if(currentProgress>.015&&currentProgress<.985){
-      window.scrollTo({top:heroScroll.offsetTop+heroScroll.offsetHeight-innerHeight,behavior:'smooth'});
-    }
-  },180);
-},{passive:true});
-window.addEventListener('scroll',updateHeroScroll,{passive:true});window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});updateHeroScroll();
+
+
+
+history.scrollRestoration='manual';
+async function boot(){
+ try{
+  await new Promise(resolve=>{if(document.readyState==='complete')resolve();else window.addEventListener('load',resolve,{once:true});});
+  await Promise.all([document.fonts?.ready||Promise.resolve(),prepareHeroImage()]);
+  const hash=location.hash;const hashTarget=hash?document.getElementById(decodeURIComponent(hash.slice(1))):null;
+  window.scrollTo({top:hashTarget?hashTarget.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});
+  init();alignHeroFrame();updateHeroScroll();
+  window.addEventListener('scroll',updateHeroScroll,{passive:true});
+  window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});
+  window.addEventListener('pageshow',()=>{const t=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;window.scrollTo({top:t?t.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});alignHeroFrame();updateHeroScroll();});
+  window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});
+  document.body.classList.remove('page-loading');document.body.classList.add('is-ready');
+ }catch(error){console.error('Falha na inicialização do portfólio:',error);document.body.classList.remove('page-loading');document.body.classList.add('is-ready');}
+}
+boot();
