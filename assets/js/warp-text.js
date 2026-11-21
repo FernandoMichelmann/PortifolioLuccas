@@ -78,7 +78,7 @@ void main() {
   float dist = length(aspectDelta);
   float radius = max(uPointerInfluence, 0.001);
   float t = clamp(dist / radius, 0.0, 1.0);
-  float lens = smoothstep(radius, 0.0, dist) * uPointerActive;
+  float lens = (1.0 - smoothstep(0.0, radius, dist)) * uPointerActive;
   float bulge = t * (1.0 - t) * (1.0 - t) * 6.75 * uPointerActive;
   vec2 dir = dist > 0.0001 ? vec2(aspectDelta.x / aspect, aspectDelta.y) / dist : vec2(0.0);
   float rippleWave = sin(dist * 28.0 - time * 4.2) * 0.5 + 0.5;
