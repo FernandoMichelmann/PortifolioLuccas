@@ -5,16 +5,16 @@ const INTRO_MS = 1600;
 const RIPPLE_LIFE = 1.6;
 const MAX_CLICKS = 4;
 
-const vertex = \`#version 300 es
+const vertex = `#version 300 es
 in vec2 position;
 in vec2 uv;
 out vec2 vUv;
 void main() {
   vUv = uv;
   gl_Position = vec4(position, 0.0, 1.0);
-}\`;
+}`;
 
-const fragment = \`#version 300 es
+const fragment = `#version 300 es
 precision highp float;
 uniform sampler2D uTextTexture;
 uniform vec2 uResolution;
@@ -131,9 +131,9 @@ void main() {
   vec3 color = ink + (a - cover) * uBackdrop;
   color = min(color + (lens + shockLight * 0.5) * cover.g * 0.055, vec3(a));
   fragColor = vec4(color, a) * uReveal;
-}\`;
+}`;
 
-const getFontValue = value => typeof value === 'number' ? \`\${value}px\` : value;
+const getFontValue = value => typeof value === 'number' ? `${value}px` : value;
 const smooth = value => value * value * (3 - 2 * value);
 const getLuminance = color => {
   const probe = document.createElement('canvas');
@@ -231,7 +231,7 @@ export function createWarpText(container, options = {}) {
     ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = ink;
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
     const lines = String(props.text || '').split('\n');
-    const applyFont = () => { ctx.font = \`\${weight} \${fontSize}px \${family}\`; };
+    const applyFont = () => { ctx.font = `${weight} ${fontSize}px ${family}`; };
     applyFont();
     const widest = Math.max(...lines.map(line => measureLine(ctx, line, spacing)), 1);
     const blockHeight = Math.max(lineHeight * lines.length, 1);
