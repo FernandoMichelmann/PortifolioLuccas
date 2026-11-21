@@ -105,3 +105,9 @@ html{scroll-behavior:smooth}
 
 /* Restaura os traços da moldura do Hero sem alterar espessura ou alinhamento. */
 .hero-frame path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+
+
+/* Hover distortion do Hero: canvases restritos ao texto, sem capturar eventos. */
+.hero-distortion-canvas{position:absolute;z-index:2;pointer-events:none;overflow:hidden}
+.hero.hero-distortion-ready .hero-word,.hero.hero-distortion-ready .hero-top-title{opacity:0!important}
+.hero.hero-distortion-ready .hero-word-wrap{visibility:hidden}
