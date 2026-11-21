@@ -13,7 +13,7 @@ if (designer) {
 
       instance = createWarpText(designer, {
         text: 'DESIGNER',
-        color: '#ffffff',
+        color: null,
         warpStrength: 0.14,
         warpScale: 2.2,
         speed: 1.25,
@@ -26,7 +26,7 @@ if (designer) {
         ripple: true,
         clickRipple: true,
         intro: true,
-        fontSize: 116,
+        fontSize: 'clamp(3rem, 10vw, 9rem)',
         fontWeight: 900,
         fontFamily: 'inherit',
         letterSpacing: '-0.08em',
