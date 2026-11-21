@@ -277,7 +277,7 @@ export function createWarpText(container, options = {}) {
         uRefraction: { value: props.refraction }, uChromatic: { value: props.chromatic },
         uRipple: { value: props.ripple ? 1 : 0 }, uMotion: { value: reduced ? 0 : 1 },
         uLens: { value: LENS_MODES[props.lens] ?? 0 }, uIntro: { value: 0 },
-        uReveal: { value: 0 }, uBackdrop: { value: 0 }, uClicks: { value: clicks }
+        uReveal: { value: 0 }, uBackdrop: { value: 0 }, uClicks: { value: new Float32Array(16) }
       }
     });
     mesh = new Mesh(gl, { geometry, program });
@@ -359,10 +359,17 @@ export function createWarpText(container, options = {}) {
     pointer.x += ((engaged ? pointer.tx : idleX) - pointer.x) * follow;
     pointer.y += ((engaged ? pointer.ty : idleY) - pointer.y) * follow;
     pointer.active += ((engaged ? 1 : drift) - pointer.active) * (1 - Math.exp(-delta / 270));
-    clicks.forEach(click => {
-      if (click[3] <= 0) return;
-      click[2] += delta / 1000;
-      if (click[2] > RIPPLE_LIFE) click[3] = 0;
+    clicks.forEach((click, index) => {
+      if (click[3] > 0) {
+        click[2] += delta / 1000;
+        if (click[2] > RIPPLE_LIFE) click[3] = 0;
+      }
+      const offset = index * 4;
+      const clickUniforms = program.uniforms.uClicks.value;
+      clickUniforms[offset] = click[0];
+      clickUniforms[offset + 1] = click[1];
+      clickUniforms[offset + 2] = click[2];
+      clickUniforms[offset + 3] = click[3];
     });
     const u = program.uniforms;
     u.uPointer.value[0] = pointer.x; u.uPointer.value[1] = pointer.y;
