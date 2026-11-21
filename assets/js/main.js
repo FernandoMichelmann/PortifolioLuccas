@@ -58,6 +58,13 @@ function updateHeroScroll(){if(!heroScroll)return;const rect=heroScroll.getBound
 
 
 
+function restorePagePosition(){
+ const target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;
+ window.scrollTo({top:target?target.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});
+ alignHeroFrame();updateHeroScroll();
+}
+window.addEventListener('pageshow',restorePagePosition);
+
 history.scrollRestoration='manual';
 async function boot(){
  try{
@@ -81,9 +88,12 @@ async function boot(){
    },180);
   },{passive:true});
   window.addEventListener('resize',()=>{alignHeroFrame();updateHeroScroll()});
-  window.addEventListener('pageshow',()=>{const t=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;window.scrollTo({top:t?t.getBoundingClientRect().top+window.scrollY:0,behavior:'instant'});alignHeroFrame();updateHeroScroll();});
+  // Reaplica posição após o navegador finalizar layout e exibir a página.
+  window.addEventListener('pageshow',restorePagePosition);
   window.addEventListener('pointermove',e=>{if(reduced||heroProgress>.2)return;heroPointerX=(e.clientX/innerWidth-.5)*2;heroPointerY=(e.clientY/innerHeight-.5)*2;heroWord.style.marginLeft=(-heroPointerX*12)+'px';heroPortrait.style.marginLeft=(heroPointerX*7)+'px';heroPortrait.style.marginTop=(heroPointerY*5)+'px';},{passive:true});
   document.body.classList.remove('page-loading');document.body.classList.add('is-ready');
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  restorePagePosition();
  }catch(error){console.error('Falha na inicialização do portfólio:',error);document.body.classList.remove('page-loading');document.body.classList.add('is-ready');}
 }
 boot();
