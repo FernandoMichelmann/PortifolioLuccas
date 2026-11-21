@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<script>history.scrollRestoration="manual";function forceHeroOnReload(){if(location.hash)return;document.documentElement.style.scrollBehavior="auto";window.scrollTo(0,0);}if(!location.hash){forceHeroOnReload();window.addEventListener("beforeunload",forceHeroOnReload);window.addEventListener("pageshow",()=>{if(!location.hash)forceHeroOnReload();});}</script>
+<script>history.scrollRestoration="manual";const navEntry=performance.getEntriesByType("navigation")[0];const isReload=navEntry&&navEntry.type==="reload";if(isReload&&location.hash){history.replaceState(null,"",location.pathname+location.search);}function forceHeroOnReload(){if(isReload||!location.hash){document.documentElement.style.scrollBehavior="auto";window.scrollTo(0,0);}}if(isReload||!location.hash){forceHeroOnReload();window.addEventListener("pageshow",forceHeroOnReload);}</script>
 <meta name="theme-color" content="#000000"><title>Luccas — Designer e Desenvolvedor</title>
 <meta name="description" content="Luccas — designer e desenvolvedor que cria experiências digitais por meio de código, movimento e interatividade.">
 <link rel="canonical" href="https://fernandomichelmann.github.io/PortifolioLuccas/">
