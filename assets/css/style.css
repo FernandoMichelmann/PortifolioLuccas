@@ -107,8 +107,8 @@ html{scroll-behavior:smooth}
 .hero-frame path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
 
 
-/* WarpText/OGL: o canvas acompanha a caixa e as transformações do texto original. */
-.hero-word,.hero-top-title{position:relative}
+/* WarpText/OGL: o canvas acompanha a caixa do texto sem alterar o posicionamento absoluto do título superior. */
+.hero-word{position:relative}
 .warp-text-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .hero-word.warp-text-ready{color:transparent!important;background:none!important;-webkit-text-fill-color:transparent!important;filter:none!important;animation:none!important;clip-path:none!important}
 .hero-top-title.warp-text-ready{color:transparent!important}
